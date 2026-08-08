@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 97%;
+    --foreground: 220 9% 11%;
+    --primary: 14 59% 35%;
+    --secondary: 183 12% 33%;
+    --muted: 40 20% 92%;
+    --muted-foreground: 200 8% 38%;
+    --border: 40 15% 88%;
+    --font-display: "Fraunces", Georgia, serif;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.65;
+  }
+}
+
+@layer utilities {
+  .font-mono-tax {
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      to top,
+      hsl(var(--background)) 0%,
+      hsl(var(--background) / 0.5) 50%,
+      transparent 100%
+    );
+  }
+
+  .prose-avian p {
+    margin-bottom: 1.4em;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: hsl(var(--foreground) / 0.9);
+  }
+
+  /* First paragraph under each section heading (lead paragraph) */
+  .prose-avian h2 + p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: hsl(var(--foreground));
+    font-weight: 400;
+  }
+
+  .prose-avian h2 {
+    font-family: var(--font-display);
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-top: 2.5em;
+    margin-bottom: 0.8em;
+    color: hsl(var(--primary));
+    letter-spacing: -0.01em;
+  }
+
+  .prose-avian h2:first-child {
+    margin-top: 0;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
