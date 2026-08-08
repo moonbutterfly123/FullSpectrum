@@ -6,5 +6,12 @@ interface FishCollectionProps {
 }
 
 export function FishCollection({ fish }: FishCollectionProps) {
-  return <WikiCollection entries={fish} basePath="/fish" label="fish" />;
+  return (
+    <WikiCollection
+      entries={fish}
+      basePath="/fish"
+      label="fish"
+      heading="Fish Collection"
+    />
+  );
 }

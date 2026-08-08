@@ -7,12 +7,12 @@ interface GenreCollectionProps {
 
 export function GenreCollection({ genres }: GenreCollectionProps) {
   return (
-    <section id="collection" className="py-16 scroll-mt-16">
+    <section id="collection" className="pt-8 pb-16 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-baseline justify-between mb-8">
-          <h2 className="font-display text-3xl font-medium text-wiki-ink">
-            The Collection
-          </h2>
+          <h1 className="font-display text-3xl font-medium text-wiki-ink">
+            Music Genre Collection
+          </h1>
           <p className="font-mono-tax text-sm text-wiki-muted">
             {genres.length} genres
           </p>

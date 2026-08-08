@@ -8,5 +8,12 @@ interface BirdCollectionProps {
 }
 
 export function BirdCollection({ birds }: BirdCollectionProps) {
-  return <WikiCollection entries={birds} basePath="/birds" label="birds" />;
+  return (
+    <WikiCollection
+      entries={birds}
+      basePath="/birds"
+      label="birds"
+      heading="Bird Collection"
+    />
+  );
 }
