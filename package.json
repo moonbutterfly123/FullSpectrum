@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "import:birds": "node scripts/import-birds.mjs",
     "import:fish": "node scripts/import-fish.mjs",
     "import:genres": "node scripts/import-genres.mjs",
@@ -15,6 +17,7 @@
     "seo:descriptions:refresh": "node scripts/generate-seo-descriptions.mjs --force"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.2",
     "gray-matter": "^4.0.3",
     "next": "^15.1.0",
     "react": "^19.0.0",
@@ -31,6 +34,7 @@
     "eslint-config-next": "^15.1.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^4.122.0"
   }
 }
