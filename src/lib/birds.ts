@@ -1,7 +1,6 @@
 import {
   loadAllEntries,
   loadEntry,
-  loadSlugs,
   type WikiEntry,
   type WikiEntryMeta,
 } from "./wiki-content";
@@ -16,14 +15,10 @@ const STAT_LABELS: Record<string, string> = {
 export type BirdMeta = WikiEntryMeta;
 export type BirdArticle = WikiEntry;
 
-export function getAllBirds(): BirdMeta[] {
+export async function getAllBirds(): Promise<BirdMeta[]> {
   return loadAllEntries("birds", [...STAT_KEYS], STAT_LABELS);
 }
 
-export function getBird(slug: string): BirdArticle | null {
+export async function getBird(slug: string): Promise<BirdArticle | null> {
   return loadEntry("birds", slug, [...STAT_KEYS], STAT_LABELS);
-}
-
-export function getBirdSlugs(): string[] {
-  return loadSlugs("birds");
 }

@@ -9,22 +9,23 @@ interface GenrePageProps {
 }
 
 export async function generateStaticParams() {
-  return getGenreSlugs().map((slug) => ({ slug }));
+  const slugs = await getGenreSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: GenrePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const genre = getGenre(slug);
+  const genre = await getGenre(slug);
   if (!genre) return { title: "Not Found" };
   return genreArticleMetadata(genre, `/music/${slug}`);
 }
 
 export default async function GenrePage({ params }: GenrePageProps) {
   const { slug } = await params;
-  const genre = getGenre(slug);
+  const genre = await getGenre(slug);
   if (!genre) notFound();
 
-  const allGenres = getAllGenres();
+  const allGenres = await getAllGenres();
   const linkTargets = buildGenreLinkTargets(allGenres, slug);
   const relatedItems = getRelatedGenres(genre, allGenres);
 

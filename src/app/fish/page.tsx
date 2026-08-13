@@ -12,8 +12,8 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/fish",
 });
 
-export default function FishHomePage() {
-  const fish = getAllFish();
+export default async function FishHomePage() {
+  const fish = await getAllFish();
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { buildRssFeed } from "@/lib/routes";
 
 export async function GET() {
-  const feed = buildRssFeed();
+  const feed = await buildRssFeed();
 
   return new Response(feed, {
     headers: {

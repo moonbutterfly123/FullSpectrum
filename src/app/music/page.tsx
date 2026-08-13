@@ -12,8 +12,8 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/music",
 });
 
-export default function MusicHomePage() {
-  const genres = getAllGenres();
+export default async function MusicHomePage() {
+  const genres = await getAllGenres();
 
   return (
     <>

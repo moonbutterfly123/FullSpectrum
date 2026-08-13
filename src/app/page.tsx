@@ -16,10 +16,12 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/",
 });
 
-export default function HomePage() {
-  const birds = getAllBirds();
-  const fish = getAllFish();
-  const genres = getAllGenres();
+export default async function HomePage() {
+  const [birds, fish, genres] = await Promise.all([
+    getAllBirds(),
+    getAllFish(),
+    getAllGenres(),
+  ]);
 
   const counts: Record<string, number> = {
     birds: birds.length,

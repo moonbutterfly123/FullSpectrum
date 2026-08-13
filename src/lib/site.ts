@@ -17,7 +17,7 @@ export const SITE_KEYWORDS = [
   "wildlife guide",
   "species encyclopedia",
 ];
-export const DEFAULT_OG_IMAGE = "/opengraph-image";
+export const DEFAULT_OG_IMAGE = "/og-default.png";
 
 /** Public site origin used for canonical URLs, Open Graph, sitemap, and robots.txt. */
 export function getSiteUrl(): string {

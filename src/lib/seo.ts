@@ -89,7 +89,7 @@ export function buildSeoDescription(
 }
 
 export function resolveOgImage(image?: string): string {
-  if (!image) return absoluteUrl("/opengraph-image");
+  if (!image) return absoluteUrl(DEFAULT_OG_IMAGE);
   if (image.startsWith("http://") || image.startsWith("https://")) return image;
   return absoluteUrl(image);
 }
@@ -201,7 +201,7 @@ export function buildWebSiteJsonLd() {
       url: siteUrl,
       logo: {
         "@type": "ImageObject",
-        url: absoluteUrl("/opengraph-image"),
+        url: absoluteUrl(DEFAULT_OG_IMAGE),
       },
     },
   };
@@ -216,7 +216,7 @@ export function buildOrganizationJsonLd() {
     name: SITE_NAME,
     alternateName: ["readfullspectrum.com", SITE_DOMAIN],
     url: siteUrl,
-    logo: absoluteUrl("/opengraph-image"),
+    logo: absoluteUrl(DEFAULT_OG_IMAGE),
     description: SITE_TAGLINE,
   };
 }
@@ -265,7 +265,7 @@ export function buildBlogPostingJsonLd(input: BlogPostingJsonLdInput) {
       name: SITE_NAME,
       logo: {
         "@type": "ImageObject",
-        url: absoluteUrl("/opengraph-image"),
+        url: absoluteUrl(DEFAULT_OG_IMAGE),
       },
     },
     mainEntityOfPage: {

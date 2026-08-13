@@ -1,8 +1,8 @@
 node_modules/
-.next/
+/.next/
 .open-next/
 .wrangler/
-src/generated/content.json
+public/data/content.json
 .env
 .env.local
 .dev.vars

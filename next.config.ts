@@ -4,6 +4,7 @@ import { SITE_DOMAIN } from "./src/lib/site";
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

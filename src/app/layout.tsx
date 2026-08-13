@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/Layout";
-import { getSiteUrl, SITE_DESCRIPTION, SITE_DOMAIN, SITE_KEYWORDS, SITE_NAME } from "@/lib/site";
+import { getSiteUrl, SITE_DESCRIPTION, SITE_DOMAIN, SITE_KEYWORDS, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/site";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/opengraph-image",
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
         alt: SITE_NAME,
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: ["/opengraph-image"],
+    images: [DEFAULT_OG_IMAGE],
   },
   other: {
     "twitter:domain": SITE_DOMAIN,

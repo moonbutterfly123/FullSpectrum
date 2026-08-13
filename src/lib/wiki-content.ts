@@ -1,4 +1,3 @@
-import matter from "gray-matter";
 import { getRawCategoryEntries, getRawEntry, getRawSlugs } from "./content-store";
 import type { ConservationCode, WikiSection } from "./types";
 
@@ -96,25 +95,25 @@ function buildMeta(
   };
 }
 
-export function loadAllEntries(
+export async function loadAllEntries(
   category: string,
   statKeys: string[],
   statLabels: Record<string, string>
-): WikiEntryMeta[] {
-  const entries = getRawCategoryEntries(category).map(({ slug, data, content }) =>
+): Promise<WikiEntryMeta[]> {
+  const entries = (await getRawCategoryEntries(category)).map(({ slug, data, content }) =>
     buildMeta(slug, data, countWords(content), statKeys, statLabels)
   );
 
   return entries.sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
-export function loadEntry(
+export async function loadEntry(
   category: string,
   slug: string,
   statKeys: string[],
   statLabels: Record<string, string>
-): WikiEntry | null {
-  const raw = getRawEntry(category, slug);
+): Promise<WikiEntry | null> {
+  const raw = await getRawEntry(category, slug);
   if (!raw) return null;
 
   const { data, content } = raw;
@@ -124,6 +123,6 @@ export function loadEntry(
   };
 }
 
-export function loadSlugs(category: string): string[] {
+export async function loadSlugs(category: string): Promise<string[]> {
   return getRawSlugs(category);
 }

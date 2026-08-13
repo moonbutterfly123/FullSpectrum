@@ -77,15 +77,15 @@ function buildMeta(slug: string, data: Record<string, unknown>, wordCount: numbe
   };
 }
 
-export function getAllGenres(): GenreMeta[] {
-  const entries = getRawCategoryEntries("music").map(({ slug, data, content }) =>
+export async function getAllGenres(): Promise<GenreMeta[]> {
+  const entries = (await getRawCategoryEntries("music")).map(({ slug, data, content }) =>
     buildMeta(slug, data, countWords(content))
   );
   return entries.sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
-export function getGenre(slug: string): GenreArticle | null {
-  const raw = getRawEntry("music", slug);
+export async function getGenre(slug: string): Promise<GenreArticle | null> {
+  const raw = await getRawEntry("music", slug);
   if (!raw) return null;
 
   const { data, content } = raw;
@@ -95,7 +95,7 @@ export function getGenre(slug: string): GenreArticle | null {
   };
 }
 
-export function getGenreSlugs(): string[] {
+export async function getGenreSlugs(): Promise<string[]> {
   return getRawSlugs("music");
 }
 

@@ -12,8 +12,8 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/birds",
 });
 
-export default function BirdsHomePage() {
-  const birds = getAllBirds();
+export default async function BirdsHomePage() {
+  const birds = await getAllBirds();
 
   return (
     <>

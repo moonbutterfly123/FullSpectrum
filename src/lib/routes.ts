@@ -15,50 +15,56 @@ export interface FeedEntry {
   publishedAt: string;
 }
 
-export function getAllArticleRoutes(): SitemapEntry[] {
-  const birds = getAllBirds().map((bird) => ({
-    path: `/birds/${bird.slug}`,
-    lastModified: bird.publishedAt,
-  }));
+export async function getAllArticleRoutes(): Promise<SitemapEntry[]> {
+  const [birds, fish, genres] = await Promise.all([
+    getAllBirds(),
+    getAllFish(),
+    getAllGenres(),
+  ]);
 
-  const fish = getAllFish().map((entry) => ({
-    path: `/fish/${entry.slug}`,
-    lastModified: entry.publishedAt,
-  }));
-
-  const genres = getAllGenres().map((genre) => ({
-    path: `/music/${genre.slug}`,
-    lastModified: genre.publishedAt,
-  }));
-
-  return [...birds, ...fish, ...genres];
+  return [
+    ...birds.map((bird) => ({
+      path: `/birds/${bird.slug}`,
+      lastModified: bird.publishedAt,
+    })),
+    ...fish.map((entry) => ({
+      path: `/fish/${entry.slug}`,
+      lastModified: entry.publishedAt,
+    })),
+    ...genres.map((genre) => ({
+      path: `/music/${genre.slug}`,
+      lastModified: genre.publishedAt,
+    })),
+  ];
 }
 
-export function getAllFeedEntries(): FeedEntry[] {
-  const birds = getAllBirds().map((bird) => ({
-    title: bird.title,
-    description: bird.seoDescription?.trim() || bird.subtitle,
-    path: `/birds/${bird.slug}`,
-    publishedAt: bird.publishedAt,
-  }));
+export async function getAllFeedEntries(): Promise<FeedEntry[]> {
+  const [birds, fish, genres] = await Promise.all([
+    getAllBirds(),
+    getAllFish(),
+    getAllGenres(),
+  ]);
 
-  const fish = getAllFish().map((entry) => ({
-    title: entry.title,
-    description: entry.seoDescription?.trim() || entry.subtitle,
-    path: `/fish/${entry.slug}`,
-    publishedAt: entry.publishedAt,
-  }));
-
-  const genres = getAllGenres().map((genre) => ({
-    title: genre.title,
-    description: genre.seoDescription?.trim() || genre.subtitle,
-    path: `/music/${genre.slug}`,
-    publishedAt: genre.publishedAt,
-  }));
-
-  return [...birds, ...fish, ...genres].sort((a, b) =>
-    b.publishedAt.localeCompare(a.publishedAt)
-  );
+  return [
+    ...birds.map((bird) => ({
+      title: bird.title,
+      description: bird.seoDescription?.trim() || bird.subtitle,
+      path: `/birds/${bird.slug}`,
+      publishedAt: bird.publishedAt,
+    })),
+    ...fish.map((entry) => ({
+      title: entry.title,
+      description: entry.seoDescription?.trim() || entry.subtitle,
+      path: `/fish/${entry.slug}`,
+      publishedAt: entry.publishedAt,
+    })),
+    ...genres.map((genre) => ({
+      title: genre.title,
+      description: genre.seoDescription?.trim() || genre.subtitle,
+      path: `/music/${genre.slug}`,
+      publishedAt: genre.publishedAt,
+    })),
+  ].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }
 
 export function getStaticPageRoutes(): SitemapEntry[] {
@@ -72,8 +78,8 @@ export function getStaticPageRoutes(): SitemapEntry[] {
   ];
 }
 
-export function getAllSitemapEntries(): SitemapEntry[] {
-  return [...getStaticPageRoutes(), ...getAllArticleRoutes()];
+export async function getAllSitemapEntries(): Promise<SitemapEntry[]> {
+  return [...getStaticPageRoutes(), ...(await getAllArticleRoutes())];
 }
 
 export function getSitemapUrl(): string {
@@ -93,9 +99,9 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
-export function buildRssFeed(): string {
+export async function buildRssFeed(): Promise<string> {
   const siteUrl = absoluteUrl("/");
-  const items = getAllFeedEntries()
+  const items = (await getAllFeedEntries())
     .slice(0, 100)
     .map(
       (entry) => `
