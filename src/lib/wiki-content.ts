@@ -1,9 +1,6 @@
-import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
+import { getRawCategoryEntries, getRawEntry, getRawSlugs } from "./content-store";
 import type { ConservationCode, WikiSection } from "./types";
-
-const contentDir = path.join(process.cwd(), "content");
 
 function parseDate(value: unknown): string {
   if (value instanceof Date) return value.toISOString().split("T")[0];
@@ -104,16 +101,9 @@ export function loadAllEntries(
   statKeys: string[],
   statLabels: Record<string, string>
 ): WikiEntryMeta[] {
-  const dir = path.join(contentDir, category);
-  if (!fs.existsSync(dir)) return [];
-
-  const entries: WikiEntryMeta[] = [];
-  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
-    const raw = fs.readFileSync(path.join(dir, file), "utf-8");
-    const { data, content } = matter(raw);
-    const slug = file.replace(/\.md$/, "");
-    entries.push(buildMeta(slug, data, countWords(content), statKeys, statLabels));
-  }
+  const entries = getRawCategoryEntries(category).map(({ slug, data, content }) =>
+    buildMeta(slug, data, countWords(content), statKeys, statLabels)
+  );
 
   return entries.sort((a, b) => a.displayOrder - b.displayOrder);
 }
@@ -124,12 +114,10 @@ export function loadEntry(
   statKeys: string[],
   statLabels: Record<string, string>
 ): WikiEntry | null {
-  const filePath = path.join(contentDir, category, `${slug}.md`);
-  if (!fs.existsSync(filePath)) return null;
+  const raw = getRawEntry(category, slug);
+  if (!raw) return null;
 
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(raw);
-
+  const { data, content } = raw;
   return {
     ...buildMeta(slug, data, countWords(content), statKeys, statLabels),
     sections: parseSections(content),
@@ -137,10 +125,5 @@ export function loadEntry(
 }
 
 export function loadSlugs(category: string): string[] {
-  const dir = path.join(contentDir, category);
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => f.replace(/\.md$/, ""));
+  return getRawSlugs(category);
 }

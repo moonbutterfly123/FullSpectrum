@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "node scripts/bundle-content.mjs",
+    "prebuild": "node scripts/bundle-content.mjs",
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build",
     "start": "next start",

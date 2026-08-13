@@ -2,6 +2,7 @@ node_modules/
 .next/
 .open-next/
 .wrangler/
+src/generated/content.json
 .env
 .env.local
 .dev.vars

@@ -1,10 +1,6 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import { getRawCategoryEntries, getRawEntry, getRawSlugs } from "./content-store";
 import { parseSections } from "./wiki-content";
 import type { WikiSection } from "./types";
-
-const genresDir = path.join(process.cwd(), "content", "music");
 
 export interface GenreMeta {
   slug: string;
@@ -82,21 +78,17 @@ function buildMeta(slug: string, data: Record<string, unknown>, wordCount: numbe
 }
 
 export function getAllGenres(): GenreMeta[] {
-  if (!fs.existsSync(genresDir)) return [];
-  const entries: GenreMeta[] = [];
-  for (const file of fs.readdirSync(genresDir).filter((f) => f.endsWith(".md"))) {
-    const raw = fs.readFileSync(path.join(genresDir, file), "utf-8");
-    const { data, content } = matter(raw);
-    entries.push(buildMeta(file.replace(/\.md$/, ""), data, countWords(content)));
-  }
+  const entries = getRawCategoryEntries("music").map(({ slug, data, content }) =>
+    buildMeta(slug, data, countWords(content))
+  );
   return entries.sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
 export function getGenre(slug: string): GenreArticle | null {
-  const filePath = path.join(genresDir, `${slug}.md`);
-  if (!fs.existsSync(filePath)) return null;
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(raw);
+  const raw = getRawEntry("music", slug);
+  if (!raw) return null;
+
+  const { data, content } = raw;
   return {
     ...buildMeta(slug, data, countWords(content)),
     sections: parseSections(content),
@@ -104,11 +96,7 @@ export function getGenre(slug: string): GenreArticle | null {
 }
 
 export function getGenreSlugs(): string[] {
-  if (!fs.existsSync(genresDir)) return [];
-  return fs
-    .readdirSync(genresDir)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => f.replace(/\.md$/, ""));
+  return getRawSlugs("music");
 }
 
 export const genreStatKeys = STAT_KEYS;
