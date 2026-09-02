@@ -3,10 +3,7 @@ import Link from "next/link";
 import { Footer } from "@/components/Layout";
 import { CuriosityIcon } from "@/components/CuriosityIcon";
 import { JsonLd } from "@/components/JsonLd";
-import { getAllAgents } from "@/lib/agents";
-import { getAllBirds } from "@/lib/birds";
-import { getAllFish } from "@/lib/fish";
-import { getAllGenres } from "@/lib/genres";
+import { getCategoryCounts } from "@/lib/content-store";
 import { buildPageMetadata, buildOrganizationJsonLd, buildWebSiteJsonLd } from "@/lib/seo";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 import { categories } from "@/lib/types";
@@ -18,19 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  const [birds, fish, genres, agents] = await Promise.all([
-    getAllBirds(),
-    getAllFish(),
-    getAllGenres(),
-    getAllAgents(),
-  ]);
-
-  const counts: Record<string, number> = {
-    birds: birds.length,
-    fish: fish.length,
-    music: genres.length,
-    agents: agents.length,
-  };
+  const counts = await getCategoryCounts();
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">

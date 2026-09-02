@@ -2,7 +2,7 @@ node_modules/
 /.next/
 .open-next/
 .wrangler/
-public/data/content.json
+public/data/
 src/generated/
 .env
 .env.local

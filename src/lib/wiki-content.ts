@@ -11,6 +11,12 @@ function countWords(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
+function resolveWordCount(data: Record<string, unknown>, content: string): number {
+  const bundled = Number(data.wordCount);
+  if (Number.isFinite(bundled) && bundled > 0) return bundled;
+  return countWords(content);
+}
+
 export function parseSections(content: string): WikiSection[] {
   const sections: WikiSection[] = [];
   const parts = content.split(/^## /m).filter(Boolean);
@@ -101,7 +107,7 @@ export async function loadAllEntries(
   statLabels: Record<string, string>
 ): Promise<WikiEntryMeta[]> {
   const entries = (await getRawCategoryEntries(category)).map(({ slug, data, content }) =>
-    buildMeta(slug, data, countWords(content), statKeys, statLabels)
+    buildMeta(slug, data, resolveWordCount(data, content), statKeys, statLabels)
   );
 
   return entries.sort((a, b) => a.displayOrder - b.displayOrder);
@@ -118,7 +124,7 @@ export async function loadEntry(
 
   const { data, content } = raw;
   return {
-    ...buildMeta(slug, data, countWords(content), statKeys, statLabels),
+    ...buildMeta(slug, data, resolveWordCount(data, content), statKeys, statLabels),
     sections: parseSections(content),
   };
 }

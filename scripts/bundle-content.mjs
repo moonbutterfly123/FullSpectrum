@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Bundle markdown content into a static JSON asset for Cloudflare Workers.
- * Served from /data/content.json — not bundled into the Worker script.
+ * Bundle markdown into small static JSON assets for Cloudflare Workers.
+ * Homepage reads counts.json; lists read meta; articles read one file each.
  */
 
 import fs from "fs";
@@ -13,9 +13,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const CONTENT = path.join(ROOT, "content");
 const OUT_DIR = path.join(ROOT, "public", "data");
-const OUT_FILE = path.join(OUT_DIR, "content.json");
 
 const CATEGORIES = ["birds", "fish", "music", "agents"];
+
+function countWords(text) {
+  return String(text || "")
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
 
 function bundleCategory(category) {
   const dir = path.join(CONTENT, category);
@@ -25,22 +30,50 @@ function bundleCategory(category) {
     const slug = file.replace(/\.md$/, "");
     const raw = fs.readFileSync(path.join(dir, file), "utf-8");
     const { data, content } = matter(raw);
-    entries[slug] = { data, content };
+    entries[slug] = {
+      data: { ...data, wordCount: countWords(content) },
+      content,
+    };
   }
 
   return entries;
 }
 
-const bundle = {};
+fs.mkdirSync(OUT_DIR, { recursive: true });
+fs.rmSync(path.join(OUT_DIR, "meta"), { recursive: true, force: true });
+fs.rmSync(path.join(OUT_DIR, "articles"), { recursive: true, force: true });
+fs.rmSync(path.join(OUT_DIR, "content.json"), { force: true });
+fs.mkdirSync(path.join(OUT_DIR, "meta"), { recursive: true });
+fs.mkdirSync(path.join(OUT_DIR, "articles"), { recursive: true });
+
+const counts = {};
+
 for (const category of CATEGORIES) {
-  bundle[category] = bundleCategory(category);
+  const entries = bundleCategory(category);
+  counts[category] = Object.keys(entries).length;
+
+  const meta = {};
+  const articleDir = path.join(OUT_DIR, "articles", category);
+  fs.mkdirSync(articleDir, { recursive: true });
+
+  for (const [slug, entry] of Object.entries(entries)) {
+    meta[slug] = { data: entry.data };
+    fs.writeFileSync(
+      path.join(articleDir, `${slug}.json`),
+      JSON.stringify(entry)
+    );
+  }
+
+  fs.writeFileSync(
+    path.join(OUT_DIR, "meta", `${category}.json`),
+    JSON.stringify(meta)
+  );
 }
 
-fs.mkdirSync(OUT_DIR, { recursive: true });
-fs.writeFileSync(OUT_FILE, JSON.stringify(bundle));
+fs.writeFileSync(path.join(OUT_DIR, "counts.json"), JSON.stringify(counts));
 
-const counts = CATEGORIES.map((c) => `${c}: ${Object.keys(bundle[c]).length}`).join(", ");
-console.log(`Bundled content → public/data/content.json (${counts})`);
+const summary = CATEGORIES.map((c) => `${c}: ${counts[c]}`).join(", ");
+console.log(`Bundled content → public/data ({${summary}})`);
 
 const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>

@@ -50,6 +50,12 @@ function countWords(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
+function resolveWordCount(data: Record<string, unknown>, content: string): number {
+  const bundled = Number(data.wordCount);
+  if (Number.isFinite(bundled) && bundled > 0) return bundled;
+  return countWords(content);
+}
+
 function buildMeta(slug: string, data: Record<string, unknown>, wordCount: number): GenreMeta {
   const stats = (data.stats ?? {}) as Record<string, string>;
   return {
@@ -79,7 +85,7 @@ function buildMeta(slug: string, data: Record<string, unknown>, wordCount: numbe
 
 export async function getAllGenres(): Promise<GenreMeta[]> {
   const entries = (await getRawCategoryEntries("music")).map(({ slug, data, content }) =>
-    buildMeta(slug, data, countWords(content))
+    buildMeta(slug, data, resolveWordCount(data, content))
   );
   return entries.sort((a, b) => a.displayOrder - b.displayOrder);
 }
@@ -90,7 +96,7 @@ export async function getGenre(slug: string): Promise<GenreArticle | null> {
 
   const { data, content } = raw;
   return {
-    ...buildMeta(slug, data, countWords(content)),
+    ...buildMeta(slug, data, resolveWordCount(data, content)),
     sections: parseSections(content),
   };
 }
