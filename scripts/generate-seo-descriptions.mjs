@@ -23,6 +23,8 @@ const FALLBACKS = {
     `${title} on Full Spectrum — biology, habitat, and ocean oddities. readfullspectrum.com`,
   music: (title) =>
     `${title} on Full Spectrum — sound, origins, and cultural impact. readfullspectrum.com`,
+  agents: (title) =>
+    `${title} on Full Spectrum — how the agent works and where it helps. readfullspectrum.com`,
 };
 
 let updated = 0;

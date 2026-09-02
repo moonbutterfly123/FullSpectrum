@@ -34,7 +34,9 @@ export function Header() {
 
   const inMusic = pathname.startsWith("/music");
 
-  const inSection = inBirds || inFish || inMusic;
+  const inAgents = pathname.startsWith("/agents");
+
+  const inSection = inBirds || inFish || inMusic || inAgents;
 
 
 
@@ -124,6 +126,26 @@ export function Header() {
 
               )}
 
+              {inAgents && (
+
+                <>
+
+                  <Link href="/agents" className={navClass(pathname === "/agents")}>
+
+                    Agents
+
+                  </Link>
+
+                  <Link href="/agents#collection" className={navClass(false)}>
+
+                    Browse Agents
+
+                  </Link>
+
+                </>
+
+              )}
+
               <Link href="/" className="text-sm text-wiki-muted hover:text-wiki-ink">
 
                 All Collections
@@ -157,6 +179,12 @@ export function Header() {
               <Link href="/music" className={navClass(pathname.startsWith("/music"))}>
 
                 Music
+
+              </Link>
+
+              <Link href="/agents" className={navClass(pathname.startsWith("/agents"))}>
+
+                Agents
 
               </Link>
 
@@ -292,7 +320,7 @@ export function Footer() {
 
         <p className="text-xs text-wiki-muted text-center">
 
-          {SITE_NAME} — encyclopedic articles on birds, fish, music, and natural history.
+          {SITE_NAME} — encyclopedic articles on birds, fish, music, AI agents, and natural history.
 
         </p>
 
@@ -369,6 +397,30 @@ export function MusicFooter() {
       collectionLabel="Browse Genres"
 
       note="Each genre gets a fun, easy-to-read article covering its sound, origins, legends, defining tracks, and cultural impact."
+
+    />
+
+  );
+
+}
+
+
+
+export function AgentFooter() {
+
+  return (
+
+    <SectionFooter
+
+      title="Agents"
+
+      description="Practical AI agent applications — travel, finance, health, home, and everyday work partners."
+
+      collectionHref="/agents#collection"
+
+      collectionLabel="Browse Agents"
+
+      note="Each agent gets a clear article covering the problem it solves, how it works, and what it still cannot do."
 
     />
 

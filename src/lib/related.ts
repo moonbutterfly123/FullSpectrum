@@ -94,7 +94,8 @@ interface GenreLikeEntry {
 export function getRelatedGenres(
   current: GenreLikeEntry,
   all: GenreLikeEntry[],
-  limit = 4
+  limit = 4,
+  basePath = "/music"
 ): RelatedEntry[] {
   const scored = all
     .filter((entry) => entry.slug !== current.slug)
@@ -146,7 +147,7 @@ export function getRelatedGenres(
     .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title));
 
   const results = scored.slice(0, limit).map(({ entry, reason }) =>
-    toRelated(entry, "/music", reason)
+    toRelated(entry, basePath, reason)
   );
 
   if (results.length < limit) {
@@ -157,7 +158,7 @@ export function getRelatedGenres(
           entry.title.toLowerCase() === parent.toLowerCase()
       );
       if (match && !results.some((item) => item.slug === match.slug)) {
-        results.push(toRelated(match, "/music", `Parent genre · ${parent}`));
+        results.push(toRelated(match, basePath, `Related · ${parent}`));
       }
       if (results.length >= limit) break;
     }
@@ -189,7 +190,8 @@ function toRelated(
 
 export function buildGenreLinkTargets(
   genres: { title: string; slug: string; parentGenres?: string[] }[],
-  excludeSlug?: string
+  excludeSlug?: string,
+  basePath = "/music"
 ): InternalLinkTarget[] {
   const parentLinks = genres.flatMap((genre) =>
     (genre.parentGenres ?? []).flatMap((parent) => {
@@ -197,10 +199,10 @@ export function buildGenreLinkTargets(
         (candidate) => candidate.title.toLowerCase() === parent.toLowerCase()
       );
       return match
-        ? [{ title: match.title, href: `/music/${match.slug}`, slug: match.slug }]
+        ? [{ title: match.title, href: `${basePath}/${match.slug}`, slug: match.slug }]
         : [];
     })
   );
 
-  return buildInternalLinkTargets(genres, "/music", excludeSlug, parentLinks);
+  return buildInternalLinkTargets(genres, basePath, excludeSlug, parentLinks);
 }

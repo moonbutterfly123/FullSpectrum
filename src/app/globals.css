@@ -44,13 +44,6 @@
 
   .prose-avian p {
     margin-bottom: 1.4em;
-    font-size: 1.0625rem;
-    line-height: 1.75;
-    color: hsl(var(--foreground) / 0.9);
-  }
-
-  /* First paragraph under each section heading (lead paragraph) */
-  .prose-avian h2 + p {
     font-size: 1.25rem;
     line-height: 1.6;
     color: hsl(var(--foreground));

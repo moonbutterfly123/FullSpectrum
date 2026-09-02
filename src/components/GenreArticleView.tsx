@@ -154,7 +154,7 @@ export function GenreArticleView({
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
           <GenreSidebar genre={genre} />
 
-          <div className="prose-avian max-w-2xl text-[1.0625rem] leading-relaxed">
+          <div className="prose-avian max-w-2xl text-[1.25rem] leading-[1.6]">
             {genre.sections.map((section, i) => (
               <section key={section.title} id={`section-${i}`}>
                 <h2>{section.title}</h2>

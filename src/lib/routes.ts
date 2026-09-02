@@ -1,3 +1,4 @@
+import { getAllAgents } from "./agents";
 import { getAllBirds } from "./birds";
 import { getAllFish } from "./fish";
 import { getAllGenres } from "./genres";
@@ -16,10 +17,11 @@ export interface FeedEntry {
 }
 
 export async function getAllArticleRoutes(): Promise<SitemapEntry[]> {
-  const [birds, fish, genres] = await Promise.all([
+  const [birds, fish, genres, agents] = await Promise.all([
     getAllBirds(),
     getAllFish(),
     getAllGenres(),
+    getAllAgents(),
   ]);
 
   return [
@@ -35,14 +37,19 @@ export async function getAllArticleRoutes(): Promise<SitemapEntry[]> {
       path: `/music/${genre.slug}`,
       lastModified: genre.publishedAt,
     })),
+    ...agents.map((agent) => ({
+      path: `/agents/${agent.slug}`,
+      lastModified: agent.publishedAt,
+    })),
   ];
 }
 
 export async function getAllFeedEntries(): Promise<FeedEntry[]> {
-  const [birds, fish, genres] = await Promise.all([
+  const [birds, fish, genres, agents] = await Promise.all([
     getAllBirds(),
     getAllFish(),
     getAllGenres(),
+    getAllAgents(),
   ]);
 
   return [
@@ -64,6 +71,12 @@ export async function getAllFeedEntries(): Promise<FeedEntry[]> {
       path: `/music/${genre.slug}`,
       publishedAt: genre.publishedAt,
     })),
+    ...agents.map((agent) => ({
+      title: agent.title,
+      description: agent.seoDescription?.trim() || agent.subtitle,
+      path: `/agents/${agent.slug}`,
+      publishedAt: agent.publishedAt,
+    })),
   ].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }
 
@@ -75,6 +88,7 @@ export function getStaticPageRoutes(): SitemapEntry[] {
     { path: "/birds", lastModified: today },
     { path: "/fish", lastModified: today },
     { path: "/music", lastModified: today },
+    { path: "/agents", lastModified: today },
   ];
 }
 

@@ -3,16 +3,17 @@ export const DEFAULT_SITE_URL = `https://${SITE_DOMAIN}`;
 
 export const SITE_NAME = "Full Spectrum";
 export const SITE_TAGLINE =
-  "Explore the full spectrum of nature and culture — in-depth guides to birds, fish, music genres, and more.";
+  "Explore the full spectrum of nature, culture, and AI agents — in-depth guides to birds, fish, music, and more.";
 /** Homepage & JSON-LD description (140–160 chars, keyword-rich). */
 export const SITE_DESCRIPTION =
-  "Full Spectrum — 300+ in-depth articles on birds, fish, music genres, and natural history. Explore nature and culture at readfullspectrum.com.";
+  "Full Spectrum — 400+ in-depth articles on birds, fish, music genres, and AI agents. Explore nature and culture online at readfullspectrum.com.";
 export const SITE_KEYWORDS = [
   "Full Spectrum",
   "readfullspectrum",
   "birds",
   "fish",
   "music genres",
+  "AI agents",
   "natural history",
   "wildlife guide",
   "species encyclopedia",

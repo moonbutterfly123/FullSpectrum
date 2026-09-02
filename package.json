@@ -14,7 +14,8 @@
     "import:birds": "node scripts/import-birds.mjs",
     "import:fish": "node scripts/import-fish.mjs",
     "import:genres": "node scripts/import-genres.mjs",
-    "import:all": "node scripts/import-birds.mjs && node scripts/import-fish.mjs && node scripts/import-genres.mjs",
+    "import:agents": "node scripts/import-agents.mjs",
+    "import:all": "node scripts/import-birds.mjs && node scripts/import-fish.mjs && node scripts/import-genres.mjs && node scripts/import-agents.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:descriptions": "node scripts/generate-seo-descriptions.mjs",
     "seo:descriptions:refresh": "node scripts/generate-seo-descriptions.mjs --force"

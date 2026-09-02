@@ -136,7 +136,7 @@ export function WikiArticleView({
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
           <WikiSidebar entry={entry} />
 
-          <div className="prose-avian max-w-2xl text-[1.0625rem] leading-relaxed">
+          <div className="prose-avian max-w-2xl text-[1.25rem] leading-[1.6]">
             {entry.sections.map((section, i) => (
               <section key={section.title} id={`section-${i}`}>
                 <h2>{section.title}</h2>

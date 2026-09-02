@@ -15,7 +15,7 @@ const CONTENT = path.join(ROOT, "content");
 const OUT_DIR = path.join(ROOT, "public", "data");
 const OUT_FILE = path.join(OUT_DIR, "content.json");
 
-const CATEGORIES = ["birds", "fish", "music"];
+const CATEGORIES = ["birds", "fish", "music", "agents"];
 
 function bundleCategory(category) {
   const dir = path.join(CONTENT, category);
@@ -52,8 +52,8 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
   <rect width="1200" height="630" fill="url(#bg)"/>
   <text x="72" y="120" fill="#9a4e2a" font-family="Georgia, serif" font-size="28" font-weight="600">readfullspectrum.com</text>
   <text x="72" y="280" fill="#1c1917" font-family="Georgia, serif" font-size="88" font-weight="700">Full Spectrum</text>
-  <text x="72" y="360" fill="#57534e" font-family="Arial, sans-serif" font-size="30">Birds, fish, music, and natural history</text>
-  <text x="72" y="560" fill="#78716c" font-family="Arial, sans-serif" font-size="24">300+ articles</text>
+  <text x="72" y="360" fill="#57534e" font-family="Arial, sans-serif" font-size="30">Birds, fish, music, agents, and natural history</text>
+  <text x="72" y="560" fill="#78716c" font-family="Arial, sans-serif" font-size="24">400+ articles</text>
 </svg>`;
 
 const sharp = (await import("sharp")).default;

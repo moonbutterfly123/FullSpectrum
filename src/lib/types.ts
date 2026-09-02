@@ -1,4 +1,4 @@
-export type CategoryId = "birds" | "fish" | "music";
+export type CategoryId = "birds" | "fish" | "music" | "agents";
 
 export type ConservationCode = "LC" | "NT" | "VU" | "EN" | "CR" | "EW" | "DD";
 
@@ -73,6 +73,15 @@ export const categories: Category[] = [
     emoji: "🎵",
     href: "/music",
     wikiName: "Music",
+  },
+  {
+    id: "agents",
+    name: "Agents",
+    description:
+      "Practical AI agent applications — travel, finance, health, home, and everyday work partners.",
+    emoji: "🤖",
+    href: "/agents",
+    wikiName: "Agents",
   },
 ];
 

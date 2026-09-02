@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Footer } from "@/components/Layout";
 import { CuriosityIcon } from "@/components/CuriosityIcon";
 import { JsonLd } from "@/components/JsonLd";
+import { getAllAgents } from "@/lib/agents";
 import { getAllBirds } from "@/lib/birds";
 import { getAllFish } from "@/lib/fish";
 import { getAllGenres } from "@/lib/genres";
@@ -17,16 +18,18 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  const [birds, fish, genres] = await Promise.all([
+  const [birds, fish, genres, agents] = await Promise.all([
     getAllBirds(),
     getAllFish(),
     getAllGenres(),
+    getAllAgents(),
   ]);
 
   const counts: Record<string, number> = {
     birds: birds.length,
     fish: fish.length,
     music: genres.length,
+    agents: agents.length,
   };
 
   return (
@@ -41,10 +44,11 @@ export default async function HomePage() {
         <p className="text-lg text-wiki-muted max-w-2xl mx-auto">{SITE_TAGLINE}</p>
       </section>
 
-      <section className="grid sm:grid-cols-3 gap-6">
+      <section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.map((cat) => {
           const count = counts[cat.id] ?? 0;
-          const label = cat.id === "music" ? "genres" : "species";
+          const label =
+            cat.id === "music" ? "genres" : cat.id === "agents" ? "agents" : "species";
 
           return (
             <Link

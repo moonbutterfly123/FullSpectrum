@@ -1,6 +1,6 @@
 # TypeWiki
 
-Multi-category encyclopedia (birds, fish, music). The **Birds** category hosts **The Wiki-Bird** at `/birds`.
+Multi-category encyclopedia (birds, fish, music, agents). The **Birds** category hosts **The Wiki-Bird** at `/birds`.
 
 ## Quick Start
 
@@ -13,6 +13,8 @@ npm run dev
 - **/birds** — The Wiki-Bird homepage
 - **/birds/collection** — All 100 species (grid)
 - **/birds/[slug]** — Individual bird article
+- **/agents** — AI agent applications
+- **/agents/[slug]** — Individual agent article
 
 ## Import Birds from base44
 
